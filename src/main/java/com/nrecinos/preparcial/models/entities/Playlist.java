@@ -1,6 +1,9 @@
 package com.nrecinos.preparcial.models.entities;
 
+import java.util.List;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +37,10 @@ public class Playlist {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_code", nullable = false)
 	private User user;
+	
+	@OneToMany(mappedBy = "songxplaylist", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<SongXPlaylist> songXPlaylist;
 
 	public Playlist(String title, String description, User user) {
 		super();
