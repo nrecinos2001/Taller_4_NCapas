@@ -38,7 +38,7 @@ public class Playlist {
 	@JoinColumn(name = "user_code", nullable = false)
 	private User user;
 	
-	@OneToMany(mappedBy = "songxplaylist", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<SongXPlaylist> songXPlaylist;
 

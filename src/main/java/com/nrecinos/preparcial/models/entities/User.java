@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 //@ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User {
 	@Id
 	@Column(name = "code")
@@ -36,7 +36,7 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
-	@OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Playlist> playlists;
 	

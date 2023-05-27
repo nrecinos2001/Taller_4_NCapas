@@ -29,10 +29,6 @@ public class SongXPlaylist {
 	@JoinColumn(name = "playlist_code", nullable = false)
 	private Playlist playlist;
 	
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "song_code", nullable = false)
-	private Song song;*/ //TODO: remove comments when song is added
-	
 	@Column(name = "date_added")
 	private Date date_added;
 	
