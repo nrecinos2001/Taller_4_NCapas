@@ -29,11 +29,15 @@ public class SongXPlaylist {
 	@JoinColumn(name = "playlist_code", nullable = false)
 	private Playlist playlist;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "song_code", nullable = false)
+	private Song song;
+	
 	@Column(name = "date_added")
 	private Date date_added;
 	
-	public SongXPlaylist(Playlist playlist) {
+	public SongXPlaylist(Playlist playlist, Song song) {
 		this.playlist = playlist;
-		// this.song = song; TODO: Add Song Entity
+		this.song = song;
 	}
 }
