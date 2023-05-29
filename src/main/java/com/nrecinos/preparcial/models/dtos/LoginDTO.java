@@ -1,5 +1,16 @@
 package com.nrecinos.preparcial.models.dtos;
 
-public class LoginDTO {
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+public class LoginDTO {
+	
+	@NotEmpty(message = "El campo no debe estar vacío")
+	private String username;
+	
+	@NotEmpty(message = "El campo no debe estar vacío")
+	private String password;
 }
