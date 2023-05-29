@@ -11,6 +11,6 @@ public interface SongService {
 	void saveSong(CreateSongDTO song) throws Exception;
 	Song findOneById(UUID code);
 	void deleteSongById(UUID code)  throws Exception;
-	void updateTitle(UpdateSongTitleDTO title);
+	void updateTitle(UpdateSongTitleDTO title, Song song);
 	List<Song> findAll();
 }
