@@ -8,7 +8,7 @@ import com.nrecinos.preparcial.models.entities.Playlist;
 
 public interface PlaylistService {
 	void savePlaylist(CreatePlaylistDTO playlist);
-	void findPlaylistById(UUID code);
+	Playlist findPlaylistById(UUID code);
 	void deletePlaylist(UUID code);
 	List<Playlist> findAll();
 }
