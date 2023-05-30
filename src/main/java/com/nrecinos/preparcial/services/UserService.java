@@ -6,7 +6,7 @@ import com.nrecinos.preparcial.models.dtos.RegisterDTO;
 import com.nrecinos.preparcial.models.dtos.UpdatePasswordDTO;
 import com.nrecinos.preparcial.models.entities.User;
 
-public interface UserServices {
+public interface UserService {
 	void register(RegisterDTO user);
 	void save(RegisterDTO user) throws Exception;
 	void deleteById(UUID code) throws Exception;

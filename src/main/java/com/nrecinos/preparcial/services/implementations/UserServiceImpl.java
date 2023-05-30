@@ -8,11 +8,11 @@ import com.nrecinos.preparcial.models.dtos.RegisterDTO;
 import com.nrecinos.preparcial.models.dtos.UpdatePasswordDTO;
 import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.repository.UserRepository;
-import com.nrecinos.preparcial.services.UserServices;
+import com.nrecinos.preparcial.services.UserService;
 
 import jakarta.transaction.Transactional;
 
-public class UserServiceImpl implements UserServices {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;

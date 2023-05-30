@@ -5,9 +5,10 @@ import java.util.UUID;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
+import com.nrecinos.preparcial.models.entities.User;
 
 public interface PlaylistService {
-	void savePlaylist(CreatePlaylistDTO playlist);
+	void savePlaylist(CreatePlaylistDTO playlist, User user);
 	Playlist findPlaylistById(UUID code);
 	void deletePlaylist(UUID code);
 	List<Playlist> findAll();
