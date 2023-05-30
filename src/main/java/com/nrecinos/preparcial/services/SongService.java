@@ -8,9 +8,5 @@ import com.nrecinos.preparcial.models.dtos.UpdateSongTitleDTO;
 import com.nrecinos.preparcial.models.entities.Song;
 
 public interface SongService {
-	void saveSong(CreateSongDTO song) throws Exception;
-	Song findSongById(UUID code);
-	void deleteSongById(UUID code)  throws Exception;
-	void updateTitle(UpdateSongTitleDTO title, Song song);
-	List<Song> findAll();
+	List<Song> findAll(String fragment);
 }
