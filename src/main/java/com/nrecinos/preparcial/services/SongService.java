@@ -9,7 +9,7 @@ import com.nrecinos.preparcial.models.entities.Song;
 
 public interface SongService {
 	void saveSong(CreateSongDTO song) throws Exception;
-	Song findOneById(UUID code);
+	Song findSongById(UUID code);
 	void deleteSongById(UUID code)  throws Exception;
 	void updateTitle(UpdateSongTitleDTO title);
 	List<Song> findAll();
