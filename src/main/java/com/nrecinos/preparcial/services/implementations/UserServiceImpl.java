@@ -61,8 +61,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findOneByIdentificator(User user) {
-		return userRepository.findOneByIdentificator(user.getEmail());
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
+
 
 }
