@@ -3,10 +3,11 @@ package com.nrecinos.preparcial.services;
 import java.util.UUID;
 
 import com.nrecinos.preparcial.models.dtos.LoginDTO;
+import com.nrecinos.preparcial.models.dtos.RegisterDTO;
 
 public interface AuthService {
 		
-	void login(LoginDTO login);
+	void singUp(RegisterDTO user);
 
 }
 		
