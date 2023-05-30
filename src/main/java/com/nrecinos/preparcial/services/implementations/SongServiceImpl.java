@@ -20,48 +20,14 @@ public class SongServiceImpl implements SongService{
 	@Autowired
 	private SongRepository songRepository;
 		
-	
-	@Override
-	@Transactional(rollbackOn = Exception.class)
-	public void saveSong(CreateSongDTO song) throws Exception {
-		// TODO Auto-generated method stub
-		Song newSong = new Song( 
-				
-				song.getTitle(),
-				song.getDuration()
-				);
-		
-		songRepository.save(newSong);
-		
-	}
-
-	@Override
-	public Song findOneById(UUID code){
-		return songRepository.findById(code).orElse(null);
-	}
-
-	@Override
-	@Transactional(rollbackOn = Exception.class)
-	public void deleteSongById(UUID code) {
-		songRepository.deleteById(code);
-		
-	}
-
-	@Override
-	public void updateTitle(UpdateSongTitleDTO title, Song actualSong) {
-		// TODO Auto-generated method stub
-		Song modifiedSong = actualSong;
-		modifiedSong.setTitle(title.getNewTitle());
-		songRepository.save(modifiedSong);
-		
-	}
-
 	@Override
 	public List<Song> findAll(String fragment) {
 		// TODO Auto-generated method stub
-		if (fragment != null) {
-			return songRepository.findAllByFragment(fragment);
+		if (fragment.isEmpty()) {
+			System.out.println("XD");
+			return songRepository.findByTitleContaining(fragment)	;
 		}
+		
 		return songRepository.findAll();
 	}
 	
