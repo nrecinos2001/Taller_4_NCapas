@@ -57,8 +57,11 @@ public class SongServiceImpl implements SongService{
 	}
 
 	@Override
-	public List<Song> findAll() {
+	public List<Song> findAll(String fragment) {
 		// TODO Auto-generated method stub
+		if (fragment != null) {
+			return songRepository.findAllByFragment(fragment);
+		}
 		return songRepository.findAll();
 	}
 	

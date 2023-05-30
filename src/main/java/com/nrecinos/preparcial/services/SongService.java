@@ -12,5 +12,5 @@ public interface SongService {
 	Song findOneById(UUID code);
 	void deleteSongById(UUID code)  throws Exception;
 	void updateTitle(UpdateSongTitleDTO title, Song song);
-	List<Song> findAll();
+	List<Song> findAll(String fragment);
 }
