@@ -11,5 +11,6 @@ public interface UserService {
 	void save(RegisterDTO user) throws Exception;
 	void deleteById(UUID code) throws Exception;
 	User findOneById(UUID code);
+	User findOneByIdentificator(User user);
 	void updatePassword(UpdatePasswordDTO password, User user);
 }
