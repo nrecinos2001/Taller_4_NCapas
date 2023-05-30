@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
+import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.services.PlaylistService;
 import com.nrecinos.preparcial.services.UserService;
 
@@ -64,12 +65,12 @@ public class PlaylistController {
 	
 	
 	
-	@PostMapping("/create")
-	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations){
-		if(validations.hasErrors()) {
+	@PostMapping("/")
+	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations, @ModelAttribute @Valid User user){
+		if(validations.hasErrors()){
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
-			playlistService.savePlaylist(info);
+			playlistService.savePlaylist(info, user);
 			return new ResponseEntity<>("Playlist created", HttpStatus.CREATED);
 	}
 }
