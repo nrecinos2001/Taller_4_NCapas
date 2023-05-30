@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
+import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.services.PlaylistService;
 import com.nrecinos.preparcial.services.UserService;
 
@@ -55,8 +57,7 @@ public class PlaylistController {
 	}
 	
 	
-	
-	@PostMapping("/delete/{code}")
+	@DeleteMapping("/delete/{code}")
 	public ResponseEntity<?> deletePlaylistById(@PathVariable(name = "code") UUID code){
 		playlistService.deletePlaylist(code);
 		return new ResponseEntity<>("playlist eliminada", HttpStatus.OK);
@@ -64,12 +65,14 @@ public class PlaylistController {
 	
 	
 	
-	@PostMapping("/create")
-	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations){
-		if(validations.hasErrors()) {
+	@PostMapping("/")
+
+	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations, @ModelAttribute @Valid User user){
+		if(validations.hasErrors()){
+
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
-			playlistService.savePlaylist(info);
+			playlistService.savePlaylist(info, user);
 			return new ResponseEntity<>("Playlist created", HttpStatus.CREATED);
 	}
 }
