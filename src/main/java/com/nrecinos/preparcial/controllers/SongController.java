@@ -64,9 +64,4 @@ public class SongController {
 		
 	}
 	
-	@PatchMapping("/update/{code}")
-	public ResponseEntity<?> updateSongTitle(@PathVariable(name = "code") UUID code){
-		
-	}
-	
 }

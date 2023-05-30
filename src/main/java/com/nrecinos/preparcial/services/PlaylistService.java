@@ -7,6 +7,8 @@ import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.User;
 
+import jakarta.validation.Valid;
+
 public interface PlaylistService {
 	void savePlaylist(CreatePlaylistDTO playlist, User user);
 	Playlist findPlaylistById(UUID code);

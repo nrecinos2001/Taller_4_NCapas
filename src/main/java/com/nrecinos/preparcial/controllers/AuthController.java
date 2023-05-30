@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nrecinos.preparcial.models.dtos.RegisterDTO;
+import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.services.AuthService;
 import com.nrecinos.preparcial.services.UserService;
 
@@ -27,12 +28,13 @@ public class AuthController {
 	
 	@PostMapping("/singup")
 	public ResponseEntity<?> singUp(@ModelAttribute @Valid RegisterDTO user, BindingResult validations){
-		if(validations.hasErrors() && !userService.findByIdentificator(user.getEmail())) {
+		User users = userService.findOneByIdentificator(user.getEmail());
+		if(validations.hasErrors() && (users==null)) {
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
 		else {
 			authService.singUp(user);
-			return new ResponseEntity<>("User Created" HttpStatus.CREATED);
+			return new ResponseEntity<>("User Created", HttpStatus.CREATED);
 		}
 	}
 }

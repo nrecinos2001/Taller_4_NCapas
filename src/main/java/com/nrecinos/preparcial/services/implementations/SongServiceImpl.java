@@ -36,7 +36,7 @@ public class SongServiceImpl implements SongService{
 	}
 
 	@Override
-	public Song findOneById(UUID code){
+	public Song findSongById(UUID code){
 		return songRepository.findById(code).orElse(null);
 	}
 
@@ -61,5 +61,4 @@ public class SongServiceImpl implements SongService{
 		// TODO Auto-generated method stub
 		return songRepository.findAll();
 	}
-	
 }

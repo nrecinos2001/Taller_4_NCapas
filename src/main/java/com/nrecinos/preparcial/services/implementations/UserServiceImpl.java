@@ -63,4 +63,10 @@ public class UserServiceImpl implements UserService {
 	}
 	
 
+	@Override
+	public User findOneByIdentificator(String user) {
+		return userRepository.findOneByIdentificator(user);
+	}
+	
+
 }

@@ -66,8 +66,10 @@ public class PlaylistController {
 	
 	
 	@PostMapping("/")
-	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations, @ModelAttribute User user){
-		if(validations.hasErrors()) {
+
+	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations, @ModelAttribute @Valid User user){
+		if(validations.hasErrors()){
+
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
 			playlistService.savePlaylist(info, user);
