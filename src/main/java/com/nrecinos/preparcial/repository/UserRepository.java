@@ -12,6 +12,7 @@ import com.nrecinos.preparcial.models.entities.User;
 
 public interface UserRepository extends ListCrudRepository<User, UUID>{
 
+
 	
 	List<Playlist> getPlaylist(String identifier);
 	List<Playlist> getPlaylistTitle(String identifier, String fragment);

@@ -67,6 +67,6 @@ public class UserServiceImpl implements UserService {
 	public User findOneByIdentificator(String user) {
 		return userRepository.findOneByIdentificator(user);
 	}
-	
+
 
 }
