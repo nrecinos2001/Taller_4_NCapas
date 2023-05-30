@@ -36,7 +36,6 @@ public class SongController {
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
 		
-		
 			songService.saveSong(song);
 			return new ResponseEntity<>("Playlist created", HttpStatus.CREATED);
 	}
