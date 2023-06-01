@@ -1,6 +1,7 @@
 package com.nrecinos.preparcial.services.implementations;
 
 import java.util.List;
+
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,8 @@ public class SongServiceImpl implements SongService{
 	public List<Song> findAll(String fragment) {
 		// TODO Auto-generated method stub
 		if (fragment.isEmpty()) {
-			System.out.println("XD");
-			return songRepository.findByTitleContaining(fragment)	;
+			return songRepository.findAll();
 		}
-		
-		return songRepository.findAll();
+		return songRepository.findByTitleContaining(fragment);
 	}
 }

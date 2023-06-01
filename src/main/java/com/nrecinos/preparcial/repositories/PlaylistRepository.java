@@ -9,7 +9,7 @@ import com.nrecinos.preparcial.models.entities.Playlist;
 
 public interface PlaylistRepository extends ListCrudRepository<Playlist, UUID>{
 	
-	List<Playlist> findByIdentifier(String identifier);
+	
 	List<Playlist> findByTitleContains(String title);
 
 	
