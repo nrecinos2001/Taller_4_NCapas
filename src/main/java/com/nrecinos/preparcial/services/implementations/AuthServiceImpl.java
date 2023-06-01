@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.nrecinos.preparcial.models.dtos.RegisterDTO;
 import com.nrecinos.preparcial.models.entities.User;
-import com.nrecinos.preparcial.repository.UserRepository;
+import com.nrecinos.preparcial.repositories.UserRepository;
 import com.nrecinos.preparcial.services.AuthService;
 
 @Service

@@ -14,4 +14,7 @@ public interface PlaylistService {
 	Playlist findPlaylistById(UUID code);
 	void deletePlaylist(UUID code);
 	List<Playlist> findAll();
+	List<Playlist> finByIdentifier(String identifier);
+	List<Playlist> findByTitleContains(String title);
+	
 }

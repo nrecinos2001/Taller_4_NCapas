@@ -51,4 +51,18 @@ public class PlaylistServiceImp implements PlaylistService{
 		return playlistRepository.findAll();
 	}
 
+	@Override
+	public List<Playlist> finByIdentifier(String identifier) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Playlist> findByTitleContains(String identifier) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+
 }

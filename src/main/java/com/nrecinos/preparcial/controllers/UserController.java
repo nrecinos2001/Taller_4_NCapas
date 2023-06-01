@@ -21,31 +21,5 @@ public class UserController {
 	private UserService userService;
 
 	
-	@GetMapping("/playlist")
-	public ResponseEntity<?> getUserPlaylist(
-			@RequestParam(value = "identifier") String identifier,
-			@RequestParam(value = "fragment", required = false) String fragment
-			){
-		
-		
-		if(fragment != null) {
-			List<Playlist> userPlaylist = userService.getUserPlaylistTitle(identifier, fragment);
-			if(userPlaylist == null) {
-				return new ResponseEntity<>("no se encontraron las playlist", HttpStatus.NOT_FOUND);
-			}else {
-				return new ResponseEntity<>(userPlaylist, HttpStatus.OK);
-			}
-		}else {
-			List<Playlist> userPlaylist = userService.getUserPlaylist(identifier);
-			if(userPlaylist == null) {
-				return new ResponseEntity<>("no se encontraron las playlist", HttpStatus.NOT_FOUND);
-			}else {
-				return new ResponseEntity<>(userPlaylist, HttpStatus.OK);
-			}
-		}
 			
-		
-		
 	}
-	
-}

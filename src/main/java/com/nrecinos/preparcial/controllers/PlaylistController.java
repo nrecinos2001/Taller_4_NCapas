@@ -25,7 +25,7 @@ import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.repositories.PlaylistRepository;
-import com.nrecinos.preparcial.repository.UserRepository;
+import com.nrecinos.preparcial.repositories.UserRepository;
 import com.nrecinos.preparcial.services.PlaylistService;
 import com.nrecinos.preparcial.services.UserService;
 import com.nrecinos.preparcial.services.implementations.PlaylistServiceImp;
@@ -79,7 +79,6 @@ public class PlaylistController {
 	}
 	
 	@PostMapping("/")
-
 	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations, @ModelAttribute @Valid User user){
 		if(validations.hasErrors()){
 
@@ -87,5 +86,30 @@ public class PlaylistController {
 		}
 			playlistService.savePlaylist(info, user);
 			return new ResponseEntity<>("Playlist created", HttpStatus.CREATED);
+	}
+	
+	
+	@GetMapping("/playlistssss")
+	public ResponseEntity<?> getUserPlaylist(
+			@RequestParam(value = "identifier") String identifier,
+			@RequestParam(value = "fragment", required = false) String fragment
+			){
+		
+		
+		if(fragment != null) {
+			List<Playlist> userPlaylist = playlistService.findByTitleContains(fragment);
+			if(userPlaylist == null) {
+				return new ResponseEntity<>("no se encontraron las playlist", HttpStatus.NOT_FOUND);
+			}else {
+				return new ResponseEntity<>(userPlaylist, HttpStatus.OK);
+			}
+		}else {
+			List<Playlist> userPlaylist = playlistService.finByIdentifier(identifier);
+			if(userPlaylist == null) {
+				return new ResponseEntity<>("no se encontraron las playlist", HttpStatus.NOT_FOUND);
+			}else {
+				return new ResponseEntity<>(userPlaylist, HttpStatus.OK);
+			}
+		}
 	}
 }

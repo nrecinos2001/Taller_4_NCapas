@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.nrecinos.preparcial.models.dtos.RegisterDTO;
 import com.nrecinos.preparcial.models.dtos.UpdatePasswordDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.User;
-import com.nrecinos.preparcial.repository.UserRepository;
+import com.nrecinos.preparcial.repositories.UserRepository;
 import com.nrecinos.preparcial.services.UserService;
 
 import jakarta.transaction.Transactional;
 
+
+@Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -51,22 +54,12 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(modifiedPassword);
 		
 	}
-	
-	@Override
-	public List<Playlist> getUserPlaylist(String identifier) {
-		return userRepository.getPlaylist(identifier);
-	}
-	
-	@Override
-	public List<Playlist> getUserPlaylistTitle(String identifier, String fragment){
-		return userRepository.getPlaylistTitle(identifier, fragment);
-	}
-	
 
 	@Override
 	public User findOneByIdentificator(String user) {
-		return userRepository.findOneByIdentificator(user);
+		return userRepository.findByUsernameOrEmail(user);
 	}
+
 
 
 }
