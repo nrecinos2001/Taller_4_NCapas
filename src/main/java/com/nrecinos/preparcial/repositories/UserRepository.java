@@ -14,6 +14,7 @@ import com.nrecinos.preparcial.models.entities.User;
 public interface UserRepository extends JpaRepository<User, UUID>{
 	 
 	User findByUsernameOrEmail(String username, String email);
+	User findOneByUsername(String username);
 }
 
 
