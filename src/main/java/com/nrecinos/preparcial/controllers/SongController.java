@@ -20,7 +20,8 @@ public class SongController {
 	@Autowired
 	private SongService songService;
 	
-	@GetMapping("/songs")
+	@SuppressWarnings("unchecked")
+	@GetMapping("/")
 	ResponseEntity<?>getAll(@RequestParam(defaultValue = "") String fragment) {
 		List<Song> songs = songService.findAll(fragment);
 		List<Song> songsFragment = songService.findAll(fragment);
@@ -32,7 +33,6 @@ public class SongController {
 					
 				}
 			}
-			
 			return new ResponseEntity(
 				songsFragment, HttpStatus.OK
 			);

@@ -13,5 +13,5 @@ public interface UserService {
 	void deleteById(UUID code) throws Exception;
 	User findOneById(UUID code);
 	void updatePassword(UpdatePasswordDTO password, User user);
-	User findOneByIdentificator(String user);
+	User findByUsernameOrEmail(String username, String email);
 }

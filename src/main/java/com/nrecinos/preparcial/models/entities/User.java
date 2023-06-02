@@ -17,10 +17,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-//@ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "User")
+@Table(name = "user", schema="public")
 public class User {
 	@Id
 	@Column(name = "code")
