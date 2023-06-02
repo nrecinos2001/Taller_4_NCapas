@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 public class CreatePlaylistDTO {
 
 	@NotEmpty(message = "El campo no debe estar vacío")
-	@Size(min =100, max = 100, message = "Exactamente 100 caracteres")
 	private String title;
 	
+	@NotEmpty(message = "El campo no debe estar vacío")
 	private String description;
 	
+	@NotEmpty(message = "El campo no debe estar vacío")
 	private String identifier;
 		
 }

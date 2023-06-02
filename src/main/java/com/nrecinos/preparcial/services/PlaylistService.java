@@ -16,5 +16,5 @@ public interface PlaylistService {
 	List<Playlist> findAll();
 	List<Playlist> finByIdentifier(String identifier);
 	List<Playlist> findByTitleContains(String title);
-	
+    boolean existsByUserAndTitle(User user, String title);
 }

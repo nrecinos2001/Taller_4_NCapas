@@ -6,11 +6,8 @@ import java.util.UUID;
 import org.springframework.data.repository.ListCrudRepository;
 
 import com.nrecinos.preparcial.models.entities.Playlist;
+import com.nrecinos.preparcial.models.entities.User;
 
 public interface PlaylistRepository extends ListCrudRepository<Playlist, UUID>{
-	
-	
-	List<Playlist> findByTitleContains(String title);
-
-	
+	boolean existsByUserAndTitle(User user, String title);
 }

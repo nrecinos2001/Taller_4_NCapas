@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
+import com.nrecinos.preparcial.models.dtos.MessageDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.repositories.PlaylistRepository;
@@ -36,6 +37,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/playlist")
 
 public class PlaylistController {
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private PlaylistService playlistService;
@@ -79,37 +83,27 @@ public class PlaylistController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations, @ModelAttribute @Valid User user){
+	public ResponseEntity<?> savePlaylist(@RequestBody @Valid CreatePlaylistDTO info, BindingResult validations){
 		if(validations.hasErrors()){
 
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
+		User user = userService.findByUsernameOrEmail(info.getIdentifier(), info.getIdentifier());
+		if(user == null) {
+			return new ResponseEntity<>(
+					new MessageDTO("El usuario no existe"),
+					HttpStatus.NOT_FOUND);
+		}
+		boolean data = playlistService.existsByUserAndTitle(user, info.getTitle());
+		if (data) {
+			return new ResponseEntity<>(
+					new MessageDTO("La playlist ya existe"),
+					HttpStatus.CONFLICT);
+		}
+		
 			playlistService.savePlaylist(info, user);
 			return new ResponseEntity<>("Playlist created", HttpStatus.CREATED);
 	}
 	
 	
-	@GetMapping("/playlistssss")
-	public ResponseEntity<?> getUserPlaylist(
-			@RequestParam(value = "identifier") String identifier,
-			@RequestParam(value = "fragment", required = false) String fragment
-			){
-		
-		
-		if(fragment != null) {
-			List<Playlist> userPlaylist = playlistService.findByTitleContains(fragment);
-			if(userPlaylist == null) {
-				return new ResponseEntity<>("no se encontraron las playlist", HttpStatus.NOT_FOUND);
-			}else {
-				return new ResponseEntity<>(userPlaylist, HttpStatus.OK);
-			}
-		}else {
-			List<Playlist> userPlaylist = playlistService.finByIdentifier(identifier);
-			if(userPlaylist == null) {
-				return new ResponseEntity<>("no se encontraron las playlist", HttpStatus.NOT_FOUND);
-			}else {
-				return new ResponseEntity<>(userPlaylist, HttpStatus.OK);
-			}
-		}
-	}
 }
