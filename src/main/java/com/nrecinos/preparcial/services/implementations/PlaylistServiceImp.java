@@ -70,13 +70,11 @@ public class PlaylistServiceImp implements PlaylistService{
 
 	@Override
 	public PlaylistWithSongsDTO findPlaylistWithSongById(UUID code) {
-		// TODO Auto-generated method stub
 		Playlist playlist = playlistRepository.findById(code).orElse(null);
 		Playlist playlistWithSongs = playlistRepository.findPlaylistWithSongs(playlist);
 		Duration sumDuration = Duration.ZERO;
 		String zeroDuration = "0.00";
 		if (playlistWithSongs == null) {
-            // Return an empty PlaylistWithSongsDTO
             return new PlaylistWithSongsDTO(playlist, new ArrayList<>(), zeroDuration);
         }
 		List<Song> songs = playlistWithSongs.getSongXPlaylist()
@@ -115,12 +113,6 @@ public class PlaylistServiceImp implements PlaylistService{
 	}
 
 	@Override
-	public List<Playlist> finByIdentifier(String identifier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Playlist> findByTitleContains(String identifier) {
 		// TODO Auto-generated method stub
 		return null;
@@ -132,12 +124,21 @@ public class PlaylistServiceImp implements PlaylistService{
 	}
 	
 	@Override
-	public List<Playlist> findByUser(User user) {
-		return playlistRepository.findByUser(user);
+	public List<Playlist> findByUser(User user, String fragment) {
+		if (fragment.isEmpty()) {
+			return playlistRepository.findByUser(user);
+		}
+		return playlistRepository.findByUserAndTitleContains(user, fragment);
 	}
 
 	@Override
 	public Playlist findPlaylistById(UUID code) {
 		return playlistRepository.findByCode(code);
+	}
+
+	@Override
+	public List<Playlist> finByIdentifier(String identifier) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

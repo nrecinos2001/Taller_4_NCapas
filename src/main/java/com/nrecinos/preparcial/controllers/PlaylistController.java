@@ -100,12 +100,12 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "identificator") String identificator) {
+	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "identificator") String identificator, @RequestParam(defaultValue = "", name = "fragment") String fragment) {
 		User user = userRepository.findOneByUsername(identificator);
 		if(user == null) {
 			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
 		}else {			
-			List<Playlist> playlistsByUser = playlistService.findByUser(user);
+			List<Playlist> playlistsByUser = playlistService.findByUser(user, fragment);
 			return new ResponseEntity<>(playlistsByUser, HttpStatus.OK);
 		}
 	}
