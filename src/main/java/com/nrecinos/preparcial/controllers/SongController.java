@@ -21,26 +21,13 @@ public class SongController {
 	private SongService songService;
 	
 	@SuppressWarnings("unchecked")
-	@GetMapping("/")
-	ResponseEntity<?>getAll(@RequestParam(defaultValue = "") String fragment) {
+	@GetMapping("")
+	ResponseEntity<?>getAll(@RequestParam(defaultValue = "", name="fragment") String fragment) {
+		
 		List<Song> songs = songService.findAll(fragment);
-		List<Song> songsFragment = songService.findAll(fragment);
-		if (fragment.isEmpty()) {
-			for (Song s : songs) {
-				String slide = s.getTitle();
-				if (slide.toUpperCase().contains(fragment.toUpperCase())) {
-					songsFragment.add(s);
-					
-				}
-			}
-			return new ResponseEntity(
-				songsFragment, HttpStatus.OK
-			);
-			
-		}
 		return new ResponseEntity<>(
-				songs, HttpStatus.OK
-			);
+			songs, HttpStatus.OK
+		);
 
 	}
 }

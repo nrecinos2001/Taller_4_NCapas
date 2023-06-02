@@ -36,7 +36,7 @@ import com.nrecinos.preparcial.services.implementations.PlaylistServiceImp;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/playlist")
+@RequestMapping("/playlists")
 
 public class PlaylistController {
 	
@@ -46,12 +46,12 @@ public class PlaylistController {
 	@Autowired
 	private PlaylistService playlistService;
 	
+	@Autowired
     private final UserRepository userRepository;
     
     @Autowired
     private SongService songService;
 	
-	@Autowired
     public PlaylistController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -85,7 +85,16 @@ public class PlaylistController {
 		
 	}
 	
-	
+	@GetMapping("/user")
+	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "identificator") String identificator) {
+		User user = userRepository.findOneByUsername(identificator);
+		if(user == null) {
+			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+		}else {			
+			List<Playlist> playlistsByUser = playlistService.findByUser(user);
+			return new ResponseEntity<>(playlistsByUser, HttpStatus.OK);
+		}
+	}
 	@GetMapping("/all")
 	public ResponseEntity<?> findAll(){
 		List<Playlist> playlist = playlistService.findAll();

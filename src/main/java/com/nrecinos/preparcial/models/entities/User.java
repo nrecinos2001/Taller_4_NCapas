@@ -35,9 +35,9 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	/*@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Playlist> playlists;
+	private List<Playlist> playlists;*/
 	
 	public User(String username, String email,String password) {
 		this.username = username;

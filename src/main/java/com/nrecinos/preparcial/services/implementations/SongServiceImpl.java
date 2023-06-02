@@ -24,10 +24,12 @@ public class SongServiceImpl implements SongService{
 	@Override
 	public List<Song> findAll(String fragment) {
 		// TODO Auto-generated method stub
+		System.out.println(fragment);
 		if (fragment.isEmpty()) {
 			return songRepository.findAll();
+		} else {			
+			return songRepository.findByTitleContaining(fragment);
 		}
-		return songRepository.findByTitleContaining(fragment);
 	}
 	
 	public Song findSongById(UUID code) {

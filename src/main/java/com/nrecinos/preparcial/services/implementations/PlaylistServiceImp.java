@@ -95,6 +95,11 @@ public class PlaylistServiceImp implements PlaylistService{
 		return playlistRepository.existsByUserAndTitle(user, title);
 	}
 	
+	@Override
+	public List<Playlist> findByUser(User user) {
+		return playlistRepository.findByUser(user);
+	}
+	
 
 
 }
