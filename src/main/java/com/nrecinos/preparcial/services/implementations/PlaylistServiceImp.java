@@ -29,6 +29,7 @@ public class PlaylistServiceImp implements PlaylistService{
 				playlist.getDescription(),
 				user
 				);
+		playlistRepository.save(newPlaylist);
 	}
 
 	@Override
@@ -61,6 +62,11 @@ public class PlaylistServiceImp implements PlaylistService{
 	public List<Playlist> findByTitleContains(String identifier) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean existsByUserAndTitle(User user, String title) {
+		return playlistRepository.existsByUserAndTitle(user, title);
 	}
 	
 
