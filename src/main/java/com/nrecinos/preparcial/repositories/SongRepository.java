@@ -9,6 +9,6 @@ import com.nrecinos.preparcial.models.entities.Song;
 
 public interface SongRepository extends ListCrudRepository<Song, UUID>{
 	 List<Song> findByTitleContaining(String titleFragment);
-	 Song findSById(UUID code); 
+	 Song findByCode(UUID code); 
 }
  

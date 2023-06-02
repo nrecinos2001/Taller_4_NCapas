@@ -33,6 +33,6 @@ public class SongServiceImpl implements SongService{
 	}
 	
 	public Song findSongById(UUID code) {
-		return songRepository.findSById(code);
+		return songRepository.findByCode(code);
 	}
 }

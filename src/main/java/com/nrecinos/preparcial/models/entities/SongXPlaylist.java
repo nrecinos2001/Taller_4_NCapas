@@ -39,8 +39,9 @@ public class SongXPlaylist {
 	//@Temporal(TemporalType.TIMESTAMP)
 	private Date date_added;
 	
-	public SongXPlaylist(Playlist playlist, Song song) {
+	public SongXPlaylist(Playlist playlist, Song song, Date date_added) {
 		this.playlist = playlist;
 		this.song = song;
+		this.date_added = date_added;
 	}
 }

@@ -31,7 +31,6 @@ public class PlaylistServiceImp implements PlaylistService{
 	private SongService songService;
 	
 	@Override
-	@Transactional(rollbackOn = Exception.class)
 	public void saveSongPlaylist(UUID codep, UUID codes) {
 		Song song = songService.findSongById(codes);
 		Playlist playlist = findPlaylistById(codep);
@@ -40,10 +39,9 @@ public class PlaylistServiceImp implements PlaylistService{
 		if(song == null || playlist == null) {
 			return ;
 		}
-		 Date date = new Date();
-		SongXPlaylist newSong = new SongXPlaylist(playlist, song);
-		songXPlaylistRepository.save(newSong);
-		
+		Date date = new Date();
+		SongXPlaylist newSong = new SongXPlaylist(playlist, song, date);
+		songXPlaylistRepository.save(newSong);	
 	}
 	
 	@Override

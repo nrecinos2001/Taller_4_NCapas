@@ -61,8 +61,8 @@ public class PlaylistController {
 	@PostMapping("/{code}")
 	public ResponseEntity<?> saveSongPlaylist(@PathVariable(name = "code") UUID code, @RequestBody UUID codep){
 		Playlist playlist = playlistService.findPlaylistById(codep);
-		Song song = songService.findSongById(codep);
-		
+		//Song song = songService.findSongById(codep);
+		Song song = null;
 		if(playlist == null || song == null) {
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
@@ -137,7 +137,6 @@ public class PlaylistController {
 	}
 	
 	
-<<<<<<< HEAD
 	@GetMapping("/playlistssss")
 	public ResponseEntity<?> getUserPlaylist(
 			@RequestParam(value = "identifier") String identifier,
@@ -160,9 +159,5 @@ public class PlaylistController {
 				return new ResponseEntity<>(userPlaylist, HttpStatus.OK);
 			}
 		}
-	}
-	
-	
-=======
->>>>>>> d52ff2923d87ae9ab224efa56afc2f243b9fe689
+	}	
 }

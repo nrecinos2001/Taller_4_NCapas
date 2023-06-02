@@ -10,6 +10,7 @@ import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.User;
 
 public interface PlaylistRepository extends ListCrudRepository<Playlist, UUID>{
+	Playlist findByCode(UUID code);
 	boolean existsByUserAndTitle(User user, String title);
 	List<Playlist> findByUser(User user);
 }
