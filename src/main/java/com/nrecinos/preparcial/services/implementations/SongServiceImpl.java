@@ -29,4 +29,8 @@ public class SongServiceImpl implements SongService{
 		}
 		return songRepository.findByTitleContaining(fragment);
 	}
+	
+	public Song findSongById(UUID code) {
+		return songRepository.findSById(code);
+	}
 }
