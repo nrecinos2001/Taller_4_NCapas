@@ -3,6 +3,8 @@ package com.nrecinos.preparcial.models.entities;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.data.jpa.repository.Temporal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,6 +36,7 @@ public class SongXPlaylist {
 	private Song song;
 	
 	@Column(name = "date_added")
+	//@Temporal(TemporalType.TIMESTAMP)
 	private Date date_added;
 	
 	public SongXPlaylist(Playlist playlist, Song song) {

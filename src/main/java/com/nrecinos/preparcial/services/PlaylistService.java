@@ -17,5 +17,7 @@ public interface PlaylistService {
 	List<Playlist> finByIdentifier(String identifier);
 	List<Playlist> findByTitleContains(String title);
 	List<Playlist> findByUser(User user);
-    boolean existsByUserAndTitle(User user, String title);
+	void saveSongPlaylist(UUID codep, UUID codes);
+  boolean existsByUserAndTitle(User user, String title);
+
 }
