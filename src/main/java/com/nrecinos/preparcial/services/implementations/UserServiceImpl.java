@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
 	public void save(RegisterDTO user) throws Exception {
 		User newUser = new User(
 				user.getUsername(),
-				user.getPassword(),
-				user.getEmail()
+				user.getEmail(),
+				user.getPassword()
 				);
 		
 		userRepository.save(newUser);
