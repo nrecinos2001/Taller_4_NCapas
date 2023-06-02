@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
+import com.nrecinos.preparcial.models.dtos.MessageDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.Song;
 import com.nrecinos.preparcial.models.entities.User;
@@ -38,6 +39,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/playlist")
 
 public class PlaylistController {
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private PlaylistService playlistService;
@@ -101,16 +105,30 @@ public class PlaylistController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<?> savePlaylist(@ModelAttribute @Valid CreatePlaylistDTO info, BindingResult validations, @ModelAttribute @Valid User user){
+	public ResponseEntity<?> savePlaylist(@RequestBody @Valid CreatePlaylistDTO info, BindingResult validations){
 		if(validations.hasErrors()){
 
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
+		User user = userService.findByUsernameOrEmail(info.getIdentifier(), info.getIdentifier());
+		if(user == null) {
+			return new ResponseEntity<>(
+					new MessageDTO("El usuario no existe"),
+					HttpStatus.NOT_FOUND);
+		}
+		boolean data = playlistService.existsByUserAndTitle(user, info.getTitle());
+		if (data) {
+			return new ResponseEntity<>(
+					new MessageDTO("La playlist ya existe"),
+					HttpStatus.CONFLICT);
+		}
+		
 			playlistService.savePlaylist(info, user);
 			return new ResponseEntity<>("Playlist created", HttpStatus.CREATED);
 	}
 	
 	
+<<<<<<< HEAD
 	@GetMapping("/playlistssss")
 	public ResponseEntity<?> getUserPlaylist(
 			@RequestParam(value = "identifier") String identifier,
@@ -136,4 +154,6 @@ public class PlaylistController {
 	}
 	
 	
+=======
+>>>>>>> d52ff2923d87ae9ab224efa56afc2f243b9fe689
 }

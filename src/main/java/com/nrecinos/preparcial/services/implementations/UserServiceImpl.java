@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
 	public void save(RegisterDTO user) throws Exception {
 		User newUser = new User(
 				user.getUsername(),
-				user.getPassword(),
-				user.getEmail()
+				user.getEmail(),
+				user.getPassword()
 				);
 		
 		userRepository.save(newUser);
@@ -56,9 +56,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findOneByIdentificator(String user) {
-		return userRepository.findByUsernameOrEmail(user);
+	public User findByUsernameOrEmail(String username, String email) {
+		return userRepository.findByUsernameOrEmail(username, email);
 	}
+
+	
+	
 
 
 

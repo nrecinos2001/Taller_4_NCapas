@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nrecinos.preparcial.models.dtos.MessageDTO;
 import com.nrecinos.preparcial.models.dtos.RegisterDTO;
 import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.services.AuthService;
@@ -25,6 +26,7 @@ import net.bytebuddy.build.Plugin.Engine.ErrorHandler;
 @RequestMapping("/auth")
 public class AuthController {
 	
+	@Autowired
 	private RequestErrorHandler errorHandler;
 	
 	@Autowired 
@@ -46,7 +48,23 @@ public class AuthController {
 		String email = createUser.getEmail();
 		String password = createUser.getPassword();
 		
+		if (userService.findByUsernameOrEmail(username, email) != null) {
+			return new ResponseEntity<>(
+					new MessageDTO("Username or email already exist"),
+					HttpStatus.BAD_REQUEST);
+		}
 		
-		
+		try {
+			userService.save(createUser);
+			return new ResponseEntity<>(
+					new MessageDTO("User created"),
+					HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(
+					new MessageDTO("Internal server error"),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
 	}
+
 }
