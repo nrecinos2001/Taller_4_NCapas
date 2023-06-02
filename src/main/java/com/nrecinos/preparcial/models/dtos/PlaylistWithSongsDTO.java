@@ -13,9 +13,11 @@ import lombok.NoArgsConstructor;
 public class PlaylistWithSongsDTO {
     private Playlist playlist;
     private List<Song> songs;
+    private String duration;
 
-    public PlaylistWithSongsDTO(Playlist playlist, List<Song> songs) {
+    public PlaylistWithSongsDTO(Playlist playlist, List<Song> songs, String duration) {
         this.playlist = playlist;
         this.songs = songs;
+        this.duration = duration;
     }
 }

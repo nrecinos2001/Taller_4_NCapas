@@ -1,6 +1,7 @@
 package com.nrecinos.preparcial.services.implementations;
 
 import java.rmi.ServerException;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import com.nrecinos.preparcial.repositories.PlaylistRepository;
 import com.nrecinos.preparcial.repositories.SongXPlaylistRepository;
 import com.nrecinos.preparcial.services.PlaylistService;
 import com.nrecinos.preparcial.services.SongService;
+import com.nrecinos.preparcial.utils.*;
 
 import jakarta.transaction.Transactional;
 
@@ -33,6 +35,8 @@ public class PlaylistServiceImp implements PlaylistService{
 	
 	@Autowired 
 	private SongService songService;
+	
+	private static DurationManager durationManager = new DurationManager();
 	
 	@Override
 	public void saveSongPlaylist(UUID codep, UUID codes) throws ServerException {
@@ -69,20 +73,30 @@ public class PlaylistServiceImp implements PlaylistService{
 		// TODO Auto-generated method stub
 		Playlist playlist = playlistRepository.findById(code).orElse(null);
 		Playlist playlistWithSongs = playlistRepository.findPlaylistWithSongs(playlist);
+		Duration sumDuration = Duration.ZERO;
+		String zeroDuration = "0.00";
 		if (playlistWithSongs == null) {
             // Return an empty PlaylistWithSongsDTO
-            return new PlaylistWithSongsDTO(playlist, new ArrayList<>());
+            return new PlaylistWithSongsDTO(playlist, new ArrayList<>(), zeroDuration);
         }
 		List<Song> songs = playlistWithSongs.getSongXPlaylist()
                 .stream()
                 .map(SongXPlaylist::getSong)
                 .collect(Collectors.toList());
 		
+		
 		if (songs.isEmpty()) {
-            return new PlaylistWithSongsDTO(playlistWithSongs, new ArrayList<>());
+            return new PlaylistWithSongsDTO(playlistWithSongs, new ArrayList<>(), zeroDuration);
         }
+		
+		for(Song song : songs) {
+			Duration duration = durationManager.parseDurationString(song.getDuration());
+			sumDuration = sumDuration.plus(duration);
+		}
+		
+		String sumDurationString = durationManager.formatDuration(sumDuration);
 
-        PlaylistWithSongsDTO playlistWithSongsDTO = new PlaylistWithSongsDTO(playlistWithSongs, songs);
+        PlaylistWithSongsDTO playlistWithSongsDTO = new PlaylistWithSongsDTO(playlistWithSongs, songs, sumDurationString);
 		return playlistWithSongsDTO;
 	}
 
