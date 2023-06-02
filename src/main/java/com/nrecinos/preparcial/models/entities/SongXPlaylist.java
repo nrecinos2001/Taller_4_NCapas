@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -29,10 +30,12 @@ public class SongXPlaylist {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "playlist_code", nullable = false)
+	@ToString.Exclude
 	private Playlist playlist;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "song_code", nullable = false)
+	@ToString.Exclude
 	private Song song;
 	
 	@Column(name = "date_added")

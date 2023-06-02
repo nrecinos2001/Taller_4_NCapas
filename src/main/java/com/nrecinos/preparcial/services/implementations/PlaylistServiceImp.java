@@ -4,11 +4,13 @@ import java.rmi.ServerException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
+import com.nrecinos.preparcial.models.dtos.PlaylistWithSongsDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.Song;
 import com.nrecinos.preparcial.models.entities.SongXPlaylist;
@@ -62,9 +64,16 @@ public class PlaylistServiceImp implements PlaylistService{
 	}
 
 	@Override
-	public Playlist findPlaylistById(UUID code) {
+	public PlaylistWithSongsDTO findPlaylistWithSongById(UUID code) {
 		// TODO Auto-generated method stub
-		return playlistRepository.findById(code).orElse(null);
+		Playlist playlist = playlistRepository.findById(code).orElse(null);
+		Playlist playlistWithSongs = playlistRepository.findPlaylistWithSongs(playlist);
+		List<Song> songs = playlistWithSongs.getSongXPlaylist()
+                .stream()
+                .map(SongXPlaylist::getSong)
+                .collect(Collectors.toList());
+        PlaylistWithSongsDTO playlistWithSongsDTO = new PlaylistWithSongsDTO(playlistWithSongs, songs);
+		return playlistWithSongsDTO;
 	}
 
 	@Override
@@ -102,7 +111,9 @@ public class PlaylistServiceImp implements PlaylistService{
 	public List<Playlist> findByUser(User user) {
 		return playlistRepository.findByUser(user);
 	}
-	
 
-
+	@Override
+	public Playlist findPlaylistById(UUID code) {
+		return playlistRepository.findByCode(code);
+	}
 }

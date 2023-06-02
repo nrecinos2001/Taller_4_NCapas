@@ -1,6 +1,7 @@
 package com.nrecinos.preparcial.controllers;
 
 import java.net.http.HttpRequest;
+
 import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class SongController {
 	private SongService songService;
 	
 	@SuppressWarnings("unchecked")
-	@GetMapping("")
+	@GetMapping("/")
 	ResponseEntity<?>getAll(@RequestParam(defaultValue = "", name="fragment") String fragment) {
 		
 		List<Song> songs = songService.findAll(fragment);

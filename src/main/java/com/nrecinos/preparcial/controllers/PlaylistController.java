@@ -2,6 +2,7 @@ package com.nrecinos.preparcial.controllers;
 
 
 import java.rmi.ServerException;
+
 import java.util.List;
 
 import java.util.UUID;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nrecinos.preparcial.models.dtos.AddSongToPlaylistDto;
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.dtos.MessageDTO;
+import com.nrecinos.preparcial.models.dtos.PlaylistWithSongsDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.Song;
 import com.nrecinos.preparcial.models.entities.User;
@@ -87,7 +89,7 @@ public class PlaylistController {
 	
 	@GetMapping("/{code}")
 	public ResponseEntity<?> findPlaylistById(@PathVariable(name = "code") UUID code){
-		Playlist playlist = playlistService.findPlaylistById(code);
+		PlaylistWithSongsDTO playlist = playlistService.findPlaylistWithSongById(code);
 		
 		if(playlist == null) {
 			return new ResponseEntity<>("Playlist Not Found", HttpStatus.NOT_FOUND);
@@ -107,6 +109,8 @@ public class PlaylistController {
 			return new ResponseEntity<>(playlistsByUser, HttpStatus.OK);
 		}
 	}
+	
+	
 	@GetMapping("/all")
 	public ResponseEntity<?> findAll(){
 		List<Playlist> playlist = playlistService.findAll();

@@ -17,6 +17,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -40,6 +41,7 @@ public class Playlist {
 	
 	@OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
 	@JsonIgnore
+	@ToString.Exclude
 	private List<SongXPlaylist> songXPlaylist;
 
 	public Playlist(String title, String description, User user) {
