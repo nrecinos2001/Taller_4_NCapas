@@ -1,13 +1,12 @@
 package com.nrecinos.preparcial.services;
 
+import java.rmi.ServerException;
 import java.util.List;
 import java.util.UUID;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.User;
-
-import jakarta.validation.Valid;
 
 public interface PlaylistService {
 	void savePlaylist(CreatePlaylistDTO playlist, User user);
@@ -17,7 +16,7 @@ public interface PlaylistService {
 	List<Playlist> finByIdentifier(String identifier);
 	List<Playlist> findByTitleContains(String title);
 	List<Playlist> findByUser(User user);
-	void saveSongPlaylist(UUID codep, UUID codes);
+	void saveSongPlaylist(UUID codep, UUID codes) throws ServerException;;
   boolean existsByUserAndTitle(User user, String title);
 
 }

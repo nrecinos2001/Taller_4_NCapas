@@ -1,5 +1,6 @@
 package com.nrecinos.preparcial.services.implementations;
 
+import java.rmi.ServerException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -31,10 +32,14 @@ public class PlaylistServiceImp implements PlaylistService{
 	private SongService songService;
 	
 	@Override
-	public void saveSongPlaylist(UUID codep, UUID codes) {
+	public void saveSongPlaylist(UUID codep, UUID codes) throws ServerException {
 		Song song = songService.findSongById(codes);
 		Playlist playlist = findPlaylistById(codep);
 		
+		SongXPlaylist songXPlaylist = songXPlaylistRepository.findBySongAndPlaylist(song, playlist);
+		if (songXPlaylist != null) {
+			throw new ServerException("Error");
+		}
 		
 		if(song == null || playlist == null) {
 			return ;

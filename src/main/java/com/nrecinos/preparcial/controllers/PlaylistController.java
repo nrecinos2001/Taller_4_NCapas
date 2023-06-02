@@ -1,6 +1,7 @@
 package com.nrecinos.preparcial.controllers;
 
 
+import java.rmi.ServerException;
 import java.util.List;
 
 import java.util.UUID;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nrecinos.preparcial.models.dtos.AddSongToPlaylistDto;
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.dtos.MessageDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
@@ -59,15 +61,25 @@ public class PlaylistController {
 	
 	
 	@PostMapping("/{code}")
-	public ResponseEntity<?> saveSongPlaylist(@PathVariable(name = "code") UUID code, @RequestBody UUID codep){
-		Playlist playlist = playlistService.findPlaylistById(codep);
-		//Song song = songService.findSongById(codep);
-		Song song = null;
-		if(playlist == null || song == null) {
-			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> saveSongPlaylist(@PathVariable(name = "code") UUID playlistCode, @RequestBody @Valid AddSongToPlaylistDto addSongToPlaylistDto, BindingResult validations){
+		if(validations.hasErrors()) {
+			return new ResponseEntity<>(validations.getFieldError(), HttpStatus.BAD_REQUEST);
 		}
-		
-		return new ResponseEntity<>("Song add to Playlist", HttpStatus.CREATED);
+		UUID songCode = UUID.fromString(addSongToPlaylistDto.getSongCode());
+		Playlist playlist = playlistService.findPlaylistById(playlistCode);
+		if(playlist == null) {
+			return new ResponseEntity<>("Playlist Not Found", HttpStatus.BAD_REQUEST);
+		}
+		Song song = songService.findSongById(songCode);
+		if(song == null) {
+			return new ResponseEntity<>("Song Not Found", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			playlistService.saveSongPlaylist(playlistCode, songCode);
+			return new ResponseEntity<>("Song add to Playlist", HttpStatus.CREATED);
+		} catch (ServerException e) {
+			return new ResponseEntity<>("Song is already in playlist", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	
@@ -78,7 +90,7 @@ public class PlaylistController {
 		Playlist playlist = playlistService.findPlaylistById(code);
 		
 		if(playlist == null) {
-			return new ResponseEntity<>("playlist no encontrado", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Playlist Not Found", HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<>(playlist, HttpStatus.OK);
