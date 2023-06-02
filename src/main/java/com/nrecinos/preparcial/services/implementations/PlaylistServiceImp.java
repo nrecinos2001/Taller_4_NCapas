@@ -3,6 +3,7 @@ package com.nrecinos.preparcial.services.implementations;
 import java.rmi.ServerException;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -68,10 +69,19 @@ public class PlaylistServiceImp implements PlaylistService{
 		// TODO Auto-generated method stub
 		Playlist playlist = playlistRepository.findById(code).orElse(null);
 		Playlist playlistWithSongs = playlistRepository.findPlaylistWithSongs(playlist);
+		if (playlistWithSongs == null) {
+            // Return an empty PlaylistWithSongsDTO
+            return new PlaylistWithSongsDTO(playlist, new ArrayList<>());
+        }
 		List<Song> songs = playlistWithSongs.getSongXPlaylist()
                 .stream()
                 .map(SongXPlaylist::getSong)
                 .collect(Collectors.toList());
+		
+		if (songs.isEmpty()) {
+            return new PlaylistWithSongsDTO(playlistWithSongs, new ArrayList<>());
+        }
+
         PlaylistWithSongsDTO playlistWithSongsDTO = new PlaylistWithSongsDTO(playlistWithSongs, songs);
 		return playlistWithSongsDTO;
 	}
