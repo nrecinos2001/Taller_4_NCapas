@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nrecinos.preparcial.models.dtos.RegisterDTO;
@@ -20,6 +21,9 @@ import jakarta.transaction.Transactional;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
+	public PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	private UserRepository userRepository;
 	
 	
@@ -30,7 +34,7 @@ public class UserServiceImpl implements UserService {
 		User newUser = new User(
 				user.getUsername(),
 				user.getEmail(),
-				user.getPassword()
+				passwordEncoder.encode(user.getPassword())
 				);
 		
 		userRepository.save(newUser);
