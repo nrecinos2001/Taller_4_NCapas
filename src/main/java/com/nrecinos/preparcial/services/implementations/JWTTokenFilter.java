@@ -1,6 +1,14 @@
 package com.nrecinos.preparcial.services.implementations;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -13,11 +21,7 @@ import com.nrecinos.preparcial.utils.JWTTools;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.io.IOException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 
 @Component
 public class JWTTokenFilter extends OncePerRequestFilter{
@@ -30,7 +34,7 @@ public class JWTTokenFilter extends OncePerRequestFilter{
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException, java.io.IOException {
+			throws ServletException, IOException  {
 		String tokenHeader = request.getHeader("Authorization");
 		String username = null;
 		String token = null;
@@ -72,6 +76,7 @@ public class JWTTokenFilter extends OncePerRequestFilter{
 						.setAuthentication(authToken);
 				}
 			}
+			
 		}
 		filterChain.doFilter(request, response);
 	}
