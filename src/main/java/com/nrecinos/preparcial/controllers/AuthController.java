@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nrecinos.preparcial.models.dtos.LoginDTO;
 import com.nrecinos.preparcial.models.dtos.MessageDTO;
 import com.nrecinos.preparcial.models.dtos.RegisterDTO;
+import com.nrecinos.preparcial.models.dtos.TokenDTO;
+import com.nrecinos.preparcial.models.entities.Token;
 import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.services.AuthService;
 import com.nrecinos.preparcial.services.UserService;
@@ -67,4 +70,19 @@ public class AuthController {
 		}	
 	}
 
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody	 @Valid LoginDTO info, BindingResult validations){
+		User user = authService.signIn(info.getIdentificator(), info.getPassword());
+		if (user == null) {
+			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+		}
+		
+		try {
+			Token token = userService.registerToken(user);
+			return new ResponseEntity<>(new TokenDTO(token), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
