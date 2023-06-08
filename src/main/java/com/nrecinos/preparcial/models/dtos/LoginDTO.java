@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class LoginDTO {
 	
 	@NotEmpty(message = "El campo no debe estar vacío")
-	private String username;
+	private String identificator;
 	
 	@NotEmpty(message = "El campo no debe estar vacío")
 	private String password;

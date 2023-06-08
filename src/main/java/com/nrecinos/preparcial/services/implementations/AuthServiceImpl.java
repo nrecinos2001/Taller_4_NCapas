@@ -1,6 +1,7 @@
 package com.nrecinos.preparcial.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nrecinos.preparcial.models.dtos.RegisterDTO;
@@ -12,7 +13,11 @@ import com.nrecinos.preparcial.services.AuthService;
 public class AuthServiceImpl implements AuthService{
 	
 	@Autowired
-	private UserRepository userRepository ;
+	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	public void singUp(RegisterDTO user) {
 		User newUser = new User(
@@ -23,5 +28,17 @@ public class AuthServiceImpl implements AuthService{
 		
 		userRepository.save(newUser);
 	}
-	
+	@Override
+	public User signIn(String identificator, String password) {
+		User user = userRepository.findByUsernameOrEmail(identificator, identificator);
+		Boolean passwordMatches = this.comparePassword(password, user.getPassword());
+		if (passwordMatches == true) {
+			return user;			
+		}
+		return null;
+	}
+	@Override
+	public Boolean comparePassword(String toCompare, String current) {
+		return passwordEncoder.matches(toCompare, current);
+	}
 }
