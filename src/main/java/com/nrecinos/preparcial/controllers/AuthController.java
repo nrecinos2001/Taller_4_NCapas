@@ -71,7 +71,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@ModelAttribute @Valid LoginDTO info, BindingResult validations){
+	public ResponseEntity<?> login(@RequestBody	 @Valid LoginDTO info, BindingResult validations){
 		User user = authService.signIn(info.getIdentificator(), info.getPassword());
 		if (user == null) {
 			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
