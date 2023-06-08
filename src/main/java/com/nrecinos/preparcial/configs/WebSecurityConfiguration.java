@@ -1,6 +1,7 @@
 package com.nrecinos.preparcial.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +33,7 @@ public class WebSecurityConfiguration {
 	@Autowired
 	private JWTTokenFilter filter;
 	
+
 	@Bean
 	AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
 	    AuthenticationManagerBuilder managerBuilder 
