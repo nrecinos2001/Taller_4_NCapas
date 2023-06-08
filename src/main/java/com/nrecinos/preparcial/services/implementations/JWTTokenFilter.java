@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.nrecinos.preparcial.models.entities.User;
@@ -18,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class JWTTokenFilter extends OncePerRequestFilter{
 	
 	@Autowired
@@ -28,7 +30,7 @@ public class JWTTokenFilter extends OncePerRequestFilter{
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+			throws ServletException, IOException, java.io.IOException {
 		String tokenHeader = request.getHeader("Authorization");
 		String username = null;
 		String token = null;
@@ -71,11 +73,6 @@ public class JWTTokenFilter extends OncePerRequestFilter{
 				}
 			}
 		}
-		
 		filterChain.doFilter(request, response);
 	}
-	
-	
-	
-
 }
