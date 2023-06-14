@@ -1,4 +1,4 @@
-package com.nrecinos.preparcial.utils;
+	package com.nrecinos.preparcial.utils;
 
 import java.util.*;
 
@@ -10,6 +10,7 @@ import com.nrecinos.preparcial.models.entities.User;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JWTTools {
@@ -58,5 +59,13 @@ public class JWTTools {
 			e.printStackTrace();
 			return null;
 		}		
-	}	
+	}
+	
+	public String extractTokenFromRequest(HttpServletRequest request) {
+	    String token = request.getHeader("Authorization");
+	    if (token != null && token.startsWith("Bearer ")) {
+	        return token.substring(7);
+	    }
+	    return null;
+	}
 }

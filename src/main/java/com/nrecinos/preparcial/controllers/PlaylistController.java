@@ -1,6 +1,7 @@
 package com.nrecinos.preparcial.controllers;
 
 
+import java.io.IOException;
 import java.rmi.ServerException;
 
 import java.util.List;
@@ -35,8 +36,14 @@ import com.nrecinos.preparcial.repositories.UserRepository;
 import com.nrecinos.preparcial.services.PlaylistService;
 import com.nrecinos.preparcial.services.SongService;
 import com.nrecinos.preparcial.services.UserService;
+import com.nrecinos.preparcial.services.implementations.JWTTokenFilter;
 import com.nrecinos.preparcial.services.implementations.PlaylistServiceImp;
+import com.nrecinos.preparcial.utils.JWTTools;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -55,6 +62,9 @@ public class PlaylistController {
     
     @Autowired
     private SongService songService;
+    
+    @Autowired
+    private JWTTools jwtTools;
 	
     public PlaylistController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -100,8 +110,10 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "identificator") String identificator, @RequestParam(defaultValue = "", name = "fragment") String fragment) {
-		User user = userRepository.findOneByUsername(identificator);
+	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "fragment") String fragment, HttpServletRequest request) {
+		String token = jwtTools.extractTokenFromRequest(request);
+		String identificator = jwtTools.getUsernameFrom(token);
+		User user = userRepository.findOneByUsername(identificator);;
 		if(user == null) {
 			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
 		}else {			
