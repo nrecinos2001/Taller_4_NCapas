@@ -142,12 +142,16 @@ public class PlaylistController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<?> savePlaylist(@RequestBody @Valid CreatePlaylistDTO info, BindingResult validations){
-		if(validations.hasErrors()){
+	public ResponseEntity<?> savePlaylist(@RequestBody @Valid CreatePlaylistDTO info, BindingResult validations, HttpServletRequest request){
 
+		if(validations.hasErrors()){		
 			return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
 		}
-		User user = userService.findByUsernameOrEmail(info.getIdentifier(), info.getIdentifier());
+		
+		String token = jwtTools.extractTokenFromRequest(request);
+		String identificator = jwtTools.getUsernameFrom(token);
+		
+		User user = userService.findByUsernameOrEmail(identificator, identificator);
 		if(user == null) {
 			return new ResponseEntity<>(
 					new MessageDTO("El usuario no existe"),

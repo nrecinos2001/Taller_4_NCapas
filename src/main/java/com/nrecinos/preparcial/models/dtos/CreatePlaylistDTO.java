@@ -16,8 +16,5 @@ public class CreatePlaylistDTO {
 	
 	@NotEmpty(message = "El campo no debe estar vacío")
 	private String description;
-	
-	@NotEmpty(message = "El campo no debe estar vacío")
-	private String identifier;
 		
 }
