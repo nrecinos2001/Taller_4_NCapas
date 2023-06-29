@@ -108,7 +108,6 @@ public class PlaylistServiceImp implements PlaylistService{
 
 	@Override
 	public List<Playlist> findAll() {
-		// TODO Auto-generated method stub
 		return playlistRepository.findAll();
 	}
 
@@ -140,5 +139,20 @@ public class PlaylistServiceImp implements PlaylistService{
 	public List<Playlist> finByIdentifier(String identifier) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Page<Playlist> findAll(Int page, Int size){
+		Pageable pageable = PageRequest.of(page, size);
+		return playlistRepository.findAll(pageable);
+	}
+	
+	@Override
+	public Page<Playlist> findByUser(User user, String fragment, Int page, Int size) {
+		Pageable pageable = PageRequest.of(page, size)
+		if (fragment.isEmpty()) {
+			return playlistRepository.findByUser(user, pageable);
+		}
+		return playlistRepository.findByUserAndTitleContains(user, fragment, pageable);
 	}
 }

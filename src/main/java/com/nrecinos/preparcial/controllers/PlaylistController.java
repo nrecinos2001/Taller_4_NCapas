@@ -110,22 +110,23 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "fragment") String fragment, HttpServletRequest request) {
+	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "fragment") String fragment, @RequestParam(defaultValue = "0") Int page, @RequestParam(defaultValue = "10") Int size, HttpServletRequest request) {
 		String token = jwtTools.extractTokenFromRequest(request);
 		String identificator = jwtTools.getUsernameFrom(token);
 		User user = userRepository.findOneByUsername(identificator);;
 		if(user == null) {
 			return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
 		}else {			
-			List<Playlist> playlistsByUser = playlistService.findByUser(user, fragment);
+			Page<Playlist> playlistsByUser = playlistService.findByUser(user, fragment, page, size);
 			return new ResponseEntity<>(playlistsByUser, HttpStatus.OK);
 		}
 	}
 	
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> findAll(){
-		List<Playlist> playlist = playlistService.findAll();
+	public ResponseEntity<?> findAll(@RequestParam(defaultValue = "0") Int page, @RequestParam(defaultValue = "10") Int size){
+		
+		Page<Playlist> playlist = playlistService.finAll(page, size)
 			
 		if(playlist == null) {
 			return new ResponseEntity<>("playlist vacio", HttpStatus.NOT_FOUND);

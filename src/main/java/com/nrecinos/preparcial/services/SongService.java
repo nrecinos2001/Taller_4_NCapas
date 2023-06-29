@@ -10,5 +10,6 @@ import com.nrecinos.preparcial.models.entities.Song;
 public interface SongService {
 	List<Song> findAll(String fragment);
 	Song findSongById(UUID code);
-	Page<Song> findAll(Int page, Int size);
+	Page<Song> findAll(String fragment, Int page, Int size);
+	
 }

@@ -33,8 +33,12 @@ public class SongServiceImpl implements SongService{
 	}
 	
 	@Override
-	public Page<Song> findAll(Int page, Int size){
+	public Page<Song> findAll(String fragment, Int page, Int size){
 		Pageable pageable = PageRequest.of(page, size);
-		return songRepository.findAll(pageable)
+				if (fragment.isEmpty()) {
+					return songRepository.findAll(pageable);
+				} else {			
+					return songRepository.findByTitleContaining(fragment, pageable);
+				}
 	}
 }

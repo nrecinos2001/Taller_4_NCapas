@@ -18,4 +18,6 @@ public interface PlaylistRepository extends JpaRepository<Playlist, UUID>{
 	List<Playlist> findByUserAndTitleContains(User user, String title);
 	@Query("SELECT p FROM Playlist p JOIN FETCH p.songXPlaylist sp JOIN FETCH sp.song WHERE p = :playlist")
     Playlist findPlaylistWithSongs(@Param("playlist") Playlist playlist);
+	Page<Playlist> findByUser(User user, Pageable pageable);
+	Page<Playlist> findByUserAndTitleContains(User user, String title, Pageable pageable);
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.ListCrudRepository;
 import com.nrecinos.preparcial.models.entities.Song;
 
 public interface SongRepository extends JpaRepository<Song, UUID>{
-	 List<Song> findByTitleContaining(String titleFragment);
+	 Page<Song> findByTitleContaining(String titleFragment, Pageable pageable);
 	 Song findByCode(UUID code); 
 }
  
