@@ -9,6 +9,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
@@ -142,17 +145,29 @@ public class PlaylistServiceImp implements PlaylistService{
 	}
 	
 	@Override
-	public Page<Playlist> findAll(Int page, Int size){
+	public Page<Playlist> findAll(Integer page, Integer size){
 		Pageable pageable = PageRequest.of(page, size);
 		return playlistRepository.findAll(pageable);
 	}
 	
 	@Override
-	public Page<Playlist> findByUser(User user, String fragment, Int page, Int size) {
-		Pageable pageable = PageRequest.of(page, size)
+	public Page<Playlist> findByUser(User user, String fragment, Integer page, Integer size) {
+		Pageable pageable = PageRequest.of(page, size);
 		if (fragment.isEmpty()) {
 			return playlistRepository.findByUser(user, pageable);
 		}
 		return playlistRepository.findByUserAndTitleContains(user, fragment, pageable);
+	}
+
+	@Override
+	public Page<Playlist> finByIdentifier(String identifier, Integer page, Integer size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<Playlist> findByTitleContains(String title, Integer page, Integer size) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
