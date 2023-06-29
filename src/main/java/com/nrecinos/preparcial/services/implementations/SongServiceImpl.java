@@ -31,4 +31,10 @@ public class SongServiceImpl implements SongService{
 	public Song findSongById(UUID code) {
 		return songRepository.findByCode(code);
 	}
+	
+	@Override
+	public Page<Song> findAll(Int page, Int size){
+		Pageable pageable = PageRequest.of(page, size);
+		return songRepository.findAll(pageable)
+	}
 }

@@ -23,9 +23,9 @@ public class SongController {
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/")
-	ResponseEntity<?>getAll(@RequestParam(defaultValue = "", name="fragment") String fragment) {
+	ResponseEntity<?>getAll(@RequestParam(defaultValue = "0") Int page, @RequestParam(defaultValue = "10") Int size) {
 		
-		List<Song> songs = songService.findAll(fragment);
+		Page<Song> songs = songService.findAll(page, size);
 		return new ResponseEntity<>(
 			songs, HttpStatus.OK
 		);

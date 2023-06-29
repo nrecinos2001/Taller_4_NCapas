@@ -19,6 +19,8 @@ public interface PlaylistService {
 	List<Playlist> findByTitleContains(String title);
 	List<Playlist> findByUser(User user, String fragment);
 	void saveSongPlaylist(UUID codep, UUID codes) throws ServerException;;
-  boolean existsByUserAndTitle(User user, String title);
+	boolean existsByUserAndTitle(User user, String title);
+	Page<Playlist> findAll(Int page, Int size);
+	Page<Playlist> finByIdentifier(Int page, Int size, String identifier);
 
 }

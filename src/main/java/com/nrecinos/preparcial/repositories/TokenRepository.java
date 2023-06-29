@@ -7,7 +7,7 @@ import com.nrecinos.preparcial.models.entities.Token;
 import com.nrecinos.preparcial.models.entities.User;
 
 public interface TokenRepository 
-extends ListCrudRepository<Token, UUID>{ 
+extends JpaRepository<Token, UUID>{ 
 
 List<Token> findByUserAndActive(User user, Boolean active);
 

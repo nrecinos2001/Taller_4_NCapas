@@ -13,7 +13,7 @@ import com.nrecinos.preparcial.models.entities.Playlist;
 import com.nrecinos.preparcial.models.entities.Song;
 import com.nrecinos.preparcial.models.entities.SongXPlaylist;
 
-public interface SongXPlaylistRepository extends ListCrudRepository<SongXPlaylist, UUID>{
+public interface SongXPlaylistRepository extends JpaRepository<SongXPlaylist, UUID>{
 	SongXPlaylist findBySongAndPlaylist(Song song, Playlist playlit);
 	@Query("SELECT new com.nrecinos.preparcial.models.dtos.PlaylistWithSongsDTO(p, s) FROM Playlist p JOIN p.songXPlaylist sp JOIN sp.song s WHERE p = :playlist")
     PlaylistWithSongsDTO findPlaylistWithSongs(@Param("playlist") Playlist playlist);
