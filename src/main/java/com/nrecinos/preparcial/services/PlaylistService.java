@@ -4,6 +4,8 @@ import java.rmi.ServerException;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+
 import com.nrecinos.preparcial.models.dtos.CreatePlaylistDTO;
 import com.nrecinos.preparcial.models.dtos.PlaylistWithSongsDTO;
 import com.nrecinos.preparcial.models.entities.Playlist;
@@ -20,9 +22,9 @@ public interface PlaylistService {
 	List<Playlist> findByUser(User user, String fragment);
 	void saveSongPlaylist(UUID codep, UUID codes) throws ServerException;;
 	boolean existsByUserAndTitle(User user, String title);
-	Page<Playlist> findAll(Int page, Int size);
-	Page<Playlist> finByIdentifier(String identifier, Int page, Int size);
-	Page<Playlist> findByTitleContains(String title, Int page, Int size);
-	Page<Playlist> findByUser(User user, String fragment, Int page, Int size);
+	Page<Playlist> findAll(Integer page, Integer size);
+	Page<Playlist> finByIdentifier(String identifier, Integer page, Integer size);
+	Page<Playlist> findByTitleContains(String title, Integer page, Integer size);
+	Page<Playlist> findByUser(User user, String fragment, Integer page, Integer size);
 
 }

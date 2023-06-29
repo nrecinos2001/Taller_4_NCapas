@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -110,7 +111,7 @@ public class PlaylistController {
 	}
 	
 	@GetMapping("/user")
-	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "fragment") String fragment, @RequestParam(defaultValue = "0") Int page, @RequestParam(defaultValue = "10") Int size, HttpServletRequest request) {
+	public ResponseEntity<?> findByUser(@RequestParam(defaultValue = "", name = "fragment") String fragment, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size, HttpServletRequest request) {
 		String token = jwtTools.extractTokenFromRequest(request);
 		String identificator = jwtTools.getUsernameFrom(token);
 		User user = userRepository.findOneByUsername(identificator);;
@@ -124,9 +125,9 @@ public class PlaylistController {
 	
 	
 	@GetMapping("/all")
-	public ResponseEntity<?> findAll(@RequestParam(defaultValue = "0") Int page, @RequestParam(defaultValue = "10") Int size){
+	public ResponseEntity<?> findAll(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size){
 		
-		Page<Playlist> playlist = playlistService.finAll(page, size)
+		Page<Playlist> playlist = playlistService.findAll(page, size);
 			
 		if(playlist == null) {
 			return new ResponseEntity<>("playlist vacio", HttpStatus.NOT_FOUND);
