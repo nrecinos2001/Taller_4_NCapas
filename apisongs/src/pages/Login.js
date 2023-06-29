@@ -40,8 +40,8 @@ function Login() {
             .then(result => {
 
                 const token = result.token;
-                // put token in local storage
-                localStorage.setItem('key', token);
+                // guardar el token en localStorage
+                localStorage.setItem('token', token);
 
             })
             .catch(error => {
@@ -87,7 +87,8 @@ function Login() {
                                 </form>
 
                                 <div>
-                                    <p className="mb-0">Don't have an account? <a href="#!" className="text-white-50 fw-bold">Sign Up</a></p>
+                                    <Link to="/singup"><p className="mb-0">Don't have an account? <a href="#!" className="text-white-50 fw-bold">Sign Up</a></p>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
