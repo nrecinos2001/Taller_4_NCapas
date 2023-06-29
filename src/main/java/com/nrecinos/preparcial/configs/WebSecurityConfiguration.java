@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.nrecinos.preparcial.models.entities.User;
 import com.nrecinos.preparcial.services.UserService;
@@ -55,9 +58,11 @@ public class WebSecurityConfiguration {
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-			//Http login and cors disabled
-	    http.httpBasic(Customizer.withDefaults());
-	    http.csrf(csrf -> csrf.disable());
+		
+		//Http login and cors disabled
+	    http.httpBasic(Customizer.withDefaults()).csrf(csrf -> csrf.disable());
+	    
+	    http.cors(Customizer.withDefaults());
 	    
 	    //Route filter
 	    http.authorizeHttpRequests(auth -> 
@@ -81,7 +86,7 @@ public class WebSecurityConfiguration {
 	    http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
 			return http.build();
+		
 	}
-	
 }
 
