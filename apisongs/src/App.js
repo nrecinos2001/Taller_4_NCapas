@@ -4,6 +4,9 @@ import Songs from './pages/Songs';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import SignUp from './pages/SingUp';
+import PlaylistDetails from './pages/PlaylistDetails';
+
+
 function App() {
   return (
     <>
@@ -12,6 +15,8 @@ function App() {
         <Route path="/songs" element={<Songs />} /> 
         <Route path="/home" element={<Home />} /> 
         <Route path="/singUp" element={<SignUp />} /> 
+        <Route path="/playlist/:playlistId" element={<PlaylistDetails />} />
+
       </Routes>
     </>
   );

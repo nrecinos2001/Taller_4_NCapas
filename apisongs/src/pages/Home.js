@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   const token = localStorage.getItem('token');
-
+  const navigate = useNavigate();
   const fetchPlaylists = async () => {
     try {
       let url = `http://localhost:8080/playlists/user?page=${currentPage}`;
@@ -74,6 +74,10 @@ const Home = () => {
       });
   };
 
+  const handlePlaylistClick = (playlistId) => {
+    navigate(`/playlist/${playlistId}`);
+  };
+
   return (
     <>
         <Navbar />
@@ -123,6 +127,14 @@ const Home = () => {
             <tr key={playlist.code}>
               <td>{playlist.title}</td>
               <td>{playlist.description}</td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handlePlaylistClick(playlist.code)}
+                >
+                  Ver detalles
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
