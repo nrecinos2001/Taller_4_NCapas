@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet, Link, useNavigate } from 'react-router-dom'
 
 function Login() {
     const [credentials, setCredentials] = useState({});
     const { enqueueSnackbar } = useSnackbar();
     const [disableLogin, setDisableLogin] = useState(true);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,30 +26,28 @@ function Login() {
 
     const handleLogin = () => {
         fetch('http://localhost:8080/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(credentials)
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(credentials)
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud');
-                }
-                return response.json();
-            })
-            .then(result => {
-
-                const token = result.token;
-                // guardar el token en localStorage
-                localStorage.setItem('token', token);
-
-            })
-            .catch(error => {
-                console.log('Error al realizar la solicitud:', error);
-                enqueueSnackbar('Ocurrió un error en la solicitud', { variant: 'error' });
-            });
-    };
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la solicitud');
+            }
+            return response.json();
+          })
+          .then(result => {
+            const token = result.token;
+            localStorage.setItem('token', token);
+            navigate('/home'); // Redireccionar a la página de inicio
+          })
+          .catch(error => {
+            console.log('Error al realizar la solicitud:', error);
+            enqueueSnackbar('Ocurrió un error en la solicitud', { variant: 'error' });
+          });
+      };
 
     return (
         <section className="vh-100 gradient-custom">
