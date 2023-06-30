@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.nrecinos.preparcial.models.entities.Song;
@@ -31,8 +32,9 @@ public class SongServiceImpl implements SongService{
 		Pageable pageable = PageRequest.of(page, size);
 				if (fragment.isEmpty()) {
 					return songRepository.findAll(pageable);
-				} else {			
-					return songRepository.findByTitleContaining(fragment, pageable);
+				} else {
+					Pageable pageableWithFrament = PageRequest.of(page, size).withSort(Sort.by("title").ascending());
+					return songRepository.findByTitleContaining(fragment, pageableWithFrament);
 				}
 	}
 
