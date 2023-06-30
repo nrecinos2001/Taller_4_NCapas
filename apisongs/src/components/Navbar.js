@@ -1,7 +1,16 @@
 import React from 'react'
 import { Outlet, Link } from 'react-router-dom'
 
+
+
+
 function Navbar() {
+    
+        const handleOut = () => {
+          localStorage.removeItem('token');
+          alert('Sesion Culminada');
+        };
+
     return (
         <>
             <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -21,7 +30,7 @@ function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <Link to="/"><button className="btn btn-danger pr-20" type="button">SALIR</button></Link>
+                <Link to="/"><button onClick={handleOut} className="btn btn-danger pr-20" type="button">SALIR</button></Link>
             </nav>
             <Outlet />
         </>
