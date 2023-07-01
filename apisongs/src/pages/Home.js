@@ -7,14 +7,20 @@ const Home = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [playlists, setPlaylists] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPlaylist, setFilteredPlaylist] = useState([]);
+  const [lastPage, setLastPage] = useState(0);
+
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const fetchPlaylists = async () => {
     try {
-      let url = `http://localhost:8080/playlists/user?page=${currentPage}`;
+      let url = `http://localhost:8080/playlists/user?fragment=${searchTerm}&page=${currentPage}`;
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -29,7 +35,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPlaylists();
-  }, [currentPage]);
+  }, [searchTerm, currentPage]);
 
   const goToNextPage = () => {
     if (currentPage < totalPages - 1) {
@@ -43,10 +49,36 @@ const Home = () => {
     }
   };
 
+
   const isLastPage = currentPage === totalPages - 1;
   useEffect(() => {
     fetchPlaylists();
   }, []);
+
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+    setCurrentPage(0); // Reiniciar currentPage solo si se ingresa un valor de búsqueda
+    
+    if (value === '') {
+        setCurrentPage(lastPage);
+        // Restaurar la última página visitada al vaciar el campo de búsqueda
+    }
+};
+
+useEffect(() => {
+  if (searchTerm === '') {
+      setLastPage(currentPage); // Actualizar lastPage solo cuando no hay un término de búsqueda
+  }
+
+  const filteredContent = playlists.filter((playlists) =>
+  playlists.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  setFilteredPlaylist(filteredContent);
+  
+}, [playlists, searchTerm, currentPage]);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -116,7 +148,17 @@ const Home = () => {
           </form>
         </div>
       </div>
-
+      <div className="row justify-content-center">
+        <div className="col-6">
+          <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Buscar por título"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
+      </div>
       <div className="row justify-content-center mb-4">
         <div className="col-8">
           <table className="table table-bordered">
@@ -128,7 +170,7 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {playlists.map((playlist) => (
+              {filteredPlaylist.map((playlist) => (
                 <tr key={playlist.code}>
                   <td>{playlist.title}</td>
                   <td>{playlist.description}</td>
