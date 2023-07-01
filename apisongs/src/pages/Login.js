@@ -48,7 +48,7 @@ function Login() {
                 localStorage.setItem('token', token);
 
                 // Redirigir al usuario a la página de Dashboard
-                navigate('/dashboard');
+                navigate('/home');
             })
             .catch((error) => {
                 console.log('Error al realizar la solicitud:', error);

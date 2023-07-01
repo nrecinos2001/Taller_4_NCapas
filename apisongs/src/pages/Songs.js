@@ -68,7 +68,7 @@ const Songs = () => {
     return (
         <>
             <div className="container mt-2 ml-10">
-                <Link to="/dashboard">
+                <Link to="/home">
                     <button className="btn btn-info">REGRESAR</button>
                 </Link>
             </div>
