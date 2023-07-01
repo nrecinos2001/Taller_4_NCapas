@@ -77,7 +77,7 @@ function Login() {
                                             <label className="form-label" htmlFor="typePasswordX">PASSWORD</label>
                                         </div>
 
-                                        <Link to={!disableLogin ? "/dashboard" : "#"}>
+                                        <Link to={!disableLogin ? "/home" : "#"}>
                                             <button
                                                 className="btn btn-outline-light btn-lg px-5"
                                                 type="submit"

@@ -20,11 +20,11 @@ function App() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route
-        path="/home*"
+        path="/home"
         element={<ProtectedRoute><Home /></ProtectedRoute>}
       />
       <Route
-        path="/songs*"
+        path="/songs"
         element={<ProtectedRoute><Songs /></ProtectedRoute>}
       />
       <Route path="/playlist/:playlistId" element={<ProtectedRoute><PlaylistDetails /></ProtectedRoute>} />

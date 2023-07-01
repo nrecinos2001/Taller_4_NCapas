@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 const Home = () => {
@@ -85,43 +85,40 @@ const Home = () => {
         <h1>¡Bienvenido!</h1>
         <p>Disfruta la música a tu manera</p>
       </div>
-
-      <div className="d-flex justify-content-center align-items-center">
-        <form className="mx-1 mx-md-4">
-          <div className="row">
-            <div className="col-sm-8">
+      <div className="row justify-content-center mb-4">
+        <div className="col-4">
+          <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
+            <div className="flex column">
               <input
                 type="text"
-                className="form-control form-control-lg"
+                className="form-control"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
                 placeholder="Titulo"
               />
-            </div>
-            <div className="col-sm-8">
               <input
                 type="text"
-                className="form-control form-control-lg"
+                className="form-control mt-2"
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 required
                 placeholder="Descripción"
               />
+              <div className="container">
+                <button type="submit" className="btn bg-black text-white btn-lg mt-2">
+                  Crear
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="container mt-2 mb-4">
-            <button type="submit" className="btn bg-black text-white btn-lg">
-              Crear
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
-      <div className="row justify-content-center">
-        <div className="col-6">
+      <div className="row justify-content-center mb-4">
+        <div className="col-8">
           <table className="table table-bordered">
             <thead className="thead-dark">
               <tr>
@@ -168,6 +165,7 @@ const Home = () => {
           </button>
         </div>
       </div>
+
     </>
   );
 };
