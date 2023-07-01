@@ -9,7 +9,7 @@ function Navbar() {
     const handleOut = () => {
         localStorage.removeItem('token');
         toast.error('Sesión terminada', {
-            autoClose: 1000,
+            autoClose: 500,
             closeButton: false,
         });
         navigate('/');
@@ -21,20 +21,18 @@ function Navbar() {
             <nav className="navbar navbar-expand-sm navbar-light bg-light">
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto">
+
+                        <Link to="/home">                        
                         <li className="nav-item active">
                             <p className="nav-link">Inicio</p>
                         </li>
-                        <li className="nav-item">
-                            <p className="nav-link">Playlist</p>
-                        </li>
+                        </Link>
+
                         <Link to="/songs">
                             <li className="nav-item">
                                 <p className="nav-link">Songs</p>
                             </li>
                         </Link>
-                        <li className="nav-item">
-                            <p className="nav-link">Otros</p>
-                        </li>
                     </ul>
                 </div>
                 <button onClick={handleOut} className="btn btn-danger pr-20" type="button">

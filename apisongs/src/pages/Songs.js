@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Outlet, Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const Songs = () => {
     const [songs, setSongs] = useState([]);
@@ -66,14 +67,11 @@ const Songs = () => {
     }, [songs, searchTerm, currentPage]);
 
     return (
-        <>
-            <div className="container mt-2 ml-10">
-                <Link to="/home">
-                    <button className="btn btn-info">REGRESAR</button>
-                </Link>
-            </div>
+        <>  
 
-            <div className="container mt-2">
+            <Navbar />
+
+            <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-6">
                         <input

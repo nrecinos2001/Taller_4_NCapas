@@ -1,9 +1,25 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 
 function SingUp() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const [agree, setAgree] = useState(false);
+
+    const handleReset = () => {
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setAgree(false);
+    };
+
+    const handlePass = () => {
+        setPassword('');
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,6 +29,17 @@ function SingUp() {
             email: email,
             password: password
         };
+
+        // Password format validation
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!¡¿?])[A-Za-z\d@#$%^&+=!¡¿?]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            toast.error('La contraseña no cumple con el formato requerido.', {
+                autoClose: 700,
+                closeButton: false,
+            });
+            handlePass();
+            return;
+        }
 
         fetch('http://localhost:8080/auth/signup', {
             method: 'POST',
@@ -29,16 +56,28 @@ function SingUp() {
             })
             .then(data => {
                 console.log(data);
-                // Realizar las acciones adicionales necesarias después de un registro exitoso
+                toast.success('Usuario creado', {
+                    autoClose: 700,
+                    closeButton: false,
+                });
+                navigate('/');
             })
             .catch(error => {
                 console.log(error);
-                // Manejar el error en caso de que ocurra
+                toast.warning('El usuario ya existe!', {
+                    autoClose: 700,
+                    closeButton: false,
+                });
+                navigate('/singup');
+                handleReset();
             });
     };
 
+
+
     return (
         <>
+            <ToastContainer position="top-right" />
             <section class="vh-100">
                 <div class="container h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -76,9 +115,16 @@ function SingUp() {
                                                     </div>
                                                 </div>
 
-                                                <div class="form-check d-flex justify-content-center mb-5">
-                                                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                                                    <label class="form-check-label" for="form2Example3">
+                                                <div class="form-check d-flex justify-content-center">
+                                                    <input
+                                                        class="form-check-input mt-4"
+                                                        type="checkbox"
+                                                        value={agree}
+                                                        id="form2Example3c"
+                                                        checked={agree}
+                                                        onChange={(e) => setAgree(e.target.checked)}
+                                                    />
+                                                    <label class="form-check-label mb-4" for="form2Example3">
                                                         I agree to sell my soul to the devil
                                                     </label>
                                                 </div>

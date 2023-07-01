@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   const [title, setTitle] = useState('');
@@ -17,6 +19,12 @@ const Home = () => {
 
 
   const token = localStorage.getItem('token');
+
+  const clearLabels = () => {
+    setTitle('');
+    setDescription('');
+  }
+
   const navigate = useNavigate();
   const fetchPlaylists = async () => {
     try {
@@ -59,24 +67,24 @@ const Home = () => {
     const value = event.target.value;
     setSearchTerm(value);
     setCurrentPage(0); // Reiniciar currentPage solo si se ingresa un valor de búsqueda
-    
+
     if (value === '') {
-        setCurrentPage(lastPage);
-        // Restaurar la última página visitada al vaciar el campo de búsqueda
+      setCurrentPage(lastPage);
+      // Restaurar la última página visitada al vaciar el campo de búsqueda
     }
-};
+  };
 
-useEffect(() => {
-  if (searchTerm === '') {
+  useEffect(() => {
+    if (searchTerm === '') {
       setLastPage(currentPage); // Actualizar lastPage solo cuando no hay un término de búsqueda
-  }
+    }
 
-  const filteredContent = playlists.filter((playlists) =>
-  playlists.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  setFilteredPlaylist(filteredContent);
-  
-}, [playlists, searchTerm, currentPage]);
+    const filteredContent = playlists.filter((playlists) =>
+      playlists.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPlaylist(filteredContent);
+
+  }, [playlists, searchTerm, currentPage]);
 
 
   const handleSubmit = (e) => {
@@ -102,7 +110,15 @@ useEffect(() => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response && error.response.status === 409) {
+          toast.error('Ya existe una playlist con el mismo título.', {
+            autoClose: 800,
+            closeButton: false,
+          });
+          clearLabels();
+        } else {
+          console.log(error);
+        }
       });
   };
 
@@ -113,6 +129,7 @@ useEffect(() => {
   return (
     <>
       <Navbar />
+      <ToastContainer position="top-right" />
       <div className="hero text-center">
         <h1>¡Bienvenido!</h1>
         <p>Disfruta la música a tu manera</p>
@@ -211,5 +228,5 @@ useEffect(() => {
     </>
   );
 };
-//a
+
 export default Home;

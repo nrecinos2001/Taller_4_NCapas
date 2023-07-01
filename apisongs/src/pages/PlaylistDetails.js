@@ -82,7 +82,7 @@ const PlaylistDetails = () => {
         if (response.status >= 200 && response.status < 300) {
           console.log(`Song with code ${songCode} added to the playlist`);
           toast.success('Cancion agregada con exito', {
-            autoClose: 1000,
+            autoClose: 700,
             closeButton: false,
           });
           fetchPlaylistDetails();
@@ -92,7 +92,7 @@ const PlaylistDetails = () => {
         if (error.response && error.response.status === 400) {
           console.log(`Error adding song with code ${songCode} to the playlist`);
           toast.error('La cancion ya esta en la playlist', {
-            autoClose: 1000,
+            autoClose: 700,
             closeButton: false,
           });
         } else {
