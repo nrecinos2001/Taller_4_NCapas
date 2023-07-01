@@ -93,8 +93,7 @@ function SingUp() {
                                         <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
                                             <img src="https://ws.shoutcast.com/images/contacts/a/aa50/aa50319b-bc01-4d87-90c5-dabe0ce7af2a/radios/563858d1-165b-4c33-8249-3c74d3feaeed/563858d1-165b-4c33-8249-3c74d3feaeed.png"
-                                                class="img-fluid" alt="prom image" />
-
+                                                class="img-fluid" alt="prom" />
                                         </div>
                                     </div>
                                 </div>
