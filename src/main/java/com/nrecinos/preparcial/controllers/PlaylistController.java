@@ -50,6 +50,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/playlists")
+@CrossOrigin("*")
 public class PlaylistController {
 	
 	@Autowired

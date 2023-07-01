@@ -33,7 +33,7 @@ public class SongServiceImpl implements SongService{
 				if (fragment.isEmpty()) {
 					return songRepository.findAll(pageable);
 				} else {
-					Pageable pageableWithFrament = PageRequest.of(page, size).withSort(Sort.by("title").ascending());
+					Pageable pageableWithFrament = PageRequest.of(page, size);
 					return songRepository.findByTitleContaining(fragment, pageableWithFrament);
 				}
 	}
