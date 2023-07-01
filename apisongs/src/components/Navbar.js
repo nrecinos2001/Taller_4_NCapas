@@ -1,40 +1,48 @@
-import React from 'react'
-import { Outlet, Link } from 'react-router-dom'
-
-
-
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Navbar() {
-    
-        const handleOut = () => {
-          localStorage.removeItem('token');
-          alert('Sesion Culminada');
-        };
+    const navigate = useNavigate();
+
+    const handleOut = () => {
+        localStorage.removeItem('token');
+        toast.error('Sesión terminada', {
+            autoClose: 1000,
+            closeButton: false,
+        });
+        navigate('/');
+    };
 
     return (
         <>
+            <ToastContainer position="top-right" />
             <nav className="navbar navbar-expand-sm navbar-light bg-light">
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Inicio</a>
+                            <p className="nav-link">Inicio</p>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Playlist</a>
+                            <p className="nav-link">Playlist</p>
                         </li>
-                        <Link to="/songs"><li className="nav-item">
-                            <a className="nav-link" href="#">Songs</a>
-                        </li></Link>
+                        <Link to="/songs">
+                            <li className="nav-item">
+                                <p className="nav-link">Songs</p>
+                            </li>
+                        </Link>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Otros</a>
+                            <p className="nav-link">Otros</p>
                         </li>
                     </ul>
                 </div>
-                <Link to="/"><button onClick={handleOut} className="btn btn-danger pr-20" type="button">SALIR</button></Link>
+                <button onClick={handleOut} className="btn btn-danger pr-20" type="button">
+                    SALIR
+                </button>
             </nav>
-            <Outlet />
         </>
-    )
+    );
 }
 
-export default Navbar
+export default Navbar;

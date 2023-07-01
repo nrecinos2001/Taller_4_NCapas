@@ -5,6 +5,7 @@ import { Outlet, Link } from 'react-router-dom';
 const Songs = () => {
     const [songs, setSongs] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const [lastPage, setLastPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredSongs, setFilteredSongs] = useState([]);
@@ -13,7 +14,7 @@ const Songs = () => {
         const fetchData = async () => {
             try {
                 const token = localStorage.getItem('token');
-                let url = `http://localhost:8080/songs?page=${currentPage}`;
+                let url = `http://localhost:8080/songs?fragment=${searchTerm}&page=${currentPage}`;
                 const response = await axios.get(url, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -27,14 +28,7 @@ const Songs = () => {
         };
 
         fetchData();
-    }, [currentPage]);
-
-    useEffect(() => {
-        const filteredContent = songs.filter((song) =>
-            song.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredSongs(filteredContent);
-    }, [songs, searchTerm]);
+    }, [searchTerm, currentPage]);
 
     const goToNextPage = () => {
         if (currentPage < totalPages - 1) {
@@ -51,8 +45,25 @@ const Songs = () => {
     const isLastPage = currentPage === totalPages - 1;
 
     const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
+        const value = event.target.value;
+        setSearchTerm(value);
+        setCurrentPage(0); // Reiniciar currentPage solo si se ingresa un valor de búsqueda
+
+        if (value === '') {
+            setCurrentPage(lastPage); // Restaurar la última página visitada al vaciar el campo de búsqueda
+        }
     };
+
+    useEffect(() => {
+        if (searchTerm === '') {
+            setLastPage(currentPage); // Actualizar lastPage solo cuando no hay un término de búsqueda
+        }
+
+        const filteredContent = songs.filter((song) =>
+            song.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredSongs(filteredContent);
+    }, [songs, searchTerm, currentPage]);
 
     return (
         <>
@@ -119,18 +130,3 @@ const Songs = () => {
 };
 
 export default Songs;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

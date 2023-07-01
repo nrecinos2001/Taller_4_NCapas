@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
-import { Outlet, Link, useNavigate } from 'react-router-dom'
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+
 
 function Login() {
     const [credentials, setCredentials] = useState({});
@@ -16,7 +17,10 @@ function Login() {
             [name]: value
         }));
 
-        const { identificator = '', password = '' } = { ...credentials, [name]: value };
+        const { identificator = '', password = '' } = {
+            ...credentials,
+            [name]: value
+        };
         if (identificator.trim() !== '' && password.trim() !== '') {
             setDisableLogin(false);
         } else {
@@ -32,22 +36,25 @@ function Login() {
           },
           body: JSON.stringify(credentials)
         })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Error en la solicitud');
-            }
-            return response.json();
-          })
-          .then(result => {
-            const token = result.token;
-            localStorage.setItem('token', token);
-            navigate('/home'); // Redireccionar a la página de inicio
-          })
-          .catch(error => {
-            console.log('Error al realizar la solicitud:', error);
-            enqueueSnackbar('Ocurrió un error en la solicitud', { variant: 'error' });
-          });
-      };
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud');
+                }
+                return response.json();
+            })
+            .then((result) => {
+                const token = result.token;
+                // guardar el token en localStorage
+                localStorage.setItem('token', token);
+
+                // Redirigir al usuario a la página de Dashboard
+                navigate('/dashboard');
+            })
+            .catch((error) => {
+                console.log('Error al realizar la solicitud:', error);
+                enqueueSnackbar('Ocurrió un error en la solicitud', { variant: 'error' });
+            });
+    };
 
     return (
         <section className="vh-100 gradient-custom">
