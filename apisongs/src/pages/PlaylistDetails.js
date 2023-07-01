@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PlaylistDetails = () => {
   const { playlistId } = useParams();
@@ -79,14 +81,20 @@ const PlaylistDetails = () => {
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           console.log(`Song with code ${songCode} added to the playlist`);
-          alert(`Song with code ${songCode} added to the playlist`);
+          toast.success('Cancion agregada con exito', {
+            autoClose: 1000,
+            closeButton: false,
+          });
           fetchPlaylistDetails();
         }
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
           console.log(`Error adding song with code ${songCode} to the playlist`);
-          alert(`Error adding song with code ${songCode} to the playlist`);
+          toast.error('La cancion ya esta en la playlist', {
+            autoClose: 1000,
+            closeButton: false,
+          });
         } else {
           console.error(error);
         }
@@ -95,54 +103,67 @@ const PlaylistDetails = () => {
 
   return (
     <>
-      <div className='container'>
+      <ToastContainer position="top-right" />
+      <div className="hero text-center mb-4">
+        <h1 className="bg-black text-white p-2">Playlist: {playlist.title}
+        <Link to="/home"><button className="btn btn-danger ml-5">Regresar</button></Link>
+        </h1>
+        <p>Description: {playlist.description}</p>
         
       </div>
-      <div className="hero text-center">
-        <h1 className="bg-black text-white">Playlist: {playlist.title}</h1>
-        <p>Description: {playlist.description}</p>
+      
+
+      <div className="row justify-content-center mb-4">
+        <div className="col-10">
+          <table className="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Titulo</th>
+                <th>Duracion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {songs.map((song) => (
+                <tr key={song.id}>
+                  <td>{song.title}</td>
+                  <td>{song.duration}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="h6 text-danger">Duracion de la playlist: {duration}</p>
+        </div>
       </div>
-      <table className="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Titulo</th>
-            <th>Duracion</th>
-          </tr>
-        </thead>
-        <tbody>
-          {songs.map((song) => (
-            <tr key={song.id}>
-              <td>{song.title}</td>
-              <td>{song.duration}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div>
-        <h3>Duracion de la playlist: {duration}</h3>
+
+
+      <div className="row justify-content-center mb-4">
+        <div className="col-6">
+          <table className="table table-bordered">
+            <thead className="thead-dark">
+              <tr>
+                <th>Titulo</th>
+                <th>Duracion</th>
+                <th>Agregar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allSongs.map((song) => (
+                <tr key={song.code}>
+                  <td>{song.title}</td>
+                  <td>{song.duration}</td>
+                  <td>
+                    <button className="btn btn-primary" onClick={() => handleAddSong(song.code)}>
+                      Agregar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-      <table className="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Titulo</th>
-            <th>Duracion</th>
-            <th>Agregar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allSongs.map((song) => (
-            <tr key={song.code}>
-              <td>{song.title}</td>
-              <td>{song.duration}</td>
-              <td>
-                <button className="btn btn-primary" onClick={() => handleAddSong(song.code)}>
-                  Agregar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+
       <div className="row justify-content-center">
         <div className="col-6">
           <button
