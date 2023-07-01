@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 
+
 function Login() {
     const [credentials, setCredentials] = useState({});
     const { enqueueSnackbar } = useSnackbar();
@@ -29,11 +30,11 @@ function Login() {
 
     const handleLogin = () => {
         fetch('http://localhost:8080/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(credentials)
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(credentials)
         })
             .then((response) => {
                 if (!response.ok) {
